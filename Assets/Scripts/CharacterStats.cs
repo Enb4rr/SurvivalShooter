@@ -8,30 +8,42 @@ public class CharacterStats : MonoBehaviour
     [SerializeField] private float maxHealthPoints = 0f;
     [SerializeField] private bool isDead;
 
-    void Start()
+    public CharacterStats(float healthPoints, float maxHealthPoints, bool isDead)
     {
-        healthPoints = maxHealthPoints;
+        HealthPoints = healthPoints;
+        MaxHealthPoints = maxHealthPoints;
+        IsDead = isDead;
     }
 
-    public void ReceiveDamage(float Damage)
-    {
-        if (isDead) return;
+    public float HealthPoints { get => healthPoints; set => healthPoints = value; }
+    public float MaxHealthPoints { get => maxHealthPoints; set => maxHealthPoints = value; }
+    public bool IsDead { get => isDead; set => isDead = value; }
 
-        healthPoints -= Damage;
-        if(healthPoints <= 0f)
+
+    void Start()
+    {
+        HealthPoints = MaxHealthPoints;
+    }
+
+    public virtual void ReceiveDamage(float Damage)
+    {
+        if (IsDead) return;
+
+        HealthPoints -= Damage;
+        if(HealthPoints <= 0f)
         {
-            healthPoints = 0f;
-            isDead = true;
+            HealthPoints = 0f;
+            IsDead = true;
             HandleDeath();
         }
     }
 
-    private void HandleDeath()
+    public virtual void HandleDeath()
     {
 
     }
 
-    private void HandleRestart() 
+    public virtual void HandleRestart() 
     {
 
     }
