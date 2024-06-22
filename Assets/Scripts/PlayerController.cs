@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravityValue = -9.81f;
 
     private CharacterController controller;
+    private Player player;
     private InputManager inputManager;
     private Gun equippedGun;
     private Vector3 playerVelocity;
@@ -21,10 +22,13 @@ public class PlayerController : MonoBehaviour
         equippedGun = GetComponent<Gun>();
         camTransform = Camera.main.transform;
         inputManager = InputManager.Instance;
+        player = GetComponent<Player>();
     }
 
     void Update()
     {
+        if(player.IsDead) return;
+
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0) playerVelocity.y = 0f;
 
